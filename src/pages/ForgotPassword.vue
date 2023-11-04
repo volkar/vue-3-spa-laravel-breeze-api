@@ -35,7 +35,7 @@
 				<FormStatusErrorMessage v-if="authStore.forgotpassworderror">{{ authStore.forgotpassworderror }}</FormStatusErrorMessage>
 
 				<div class="mb-8">
-					<InputField v-model="email" type="email" label="Email" required />
+					<InputField v-model="email" type="email" label="Email" :error="authStore.forgotpasswordfields.email" required />
 					<InputFieldErrorMessage v-if="authStore.forgotpasswordfields.email">{{ authStore.forgotpasswordfields.email[0] }}</InputFieldErrorMessage>
 				</div>
 

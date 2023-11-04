@@ -38,15 +38,15 @@
                 <FormStatusErrorMessage v-if="authStore.registererror">{{ authStore.registererror }}</FormStatusErrorMessage>
 
 				<div class="mb-4">
-					<InputField v-model="form.email" type="email" label="Email" required />
+					<InputField v-model="form.email" type="email" label="Email" :error="authStore.registerfields.email" required />
                     <InputFieldErrorMessage v-if="authStore.registerfields.email">{{ authStore.registerfields.email[0] }}</InputFieldErrorMessage>
 				</div>
 				<div class="mb-4">
-					<InputField v-model="form.name" type="text" label="Name" required />
+					<InputField v-model="form.name" type="text" label="Name" :error="authStore.registerfields.name" required />
 					<InputFieldErrorMessage v-if="authStore.registerfields.name">{{ authStore.registerfields.name[0] }}</InputFieldErrorMessage>
 				</div>
 				<div class="mb-4">
-					<InputField v-model="form.password" type="password" label="Password" required />
+					<InputField v-model="form.password" type="password" label="Password" :error="authStore.registerfields.password" required />
 					<InputFieldErrorMessage v-if="authStore.registerfields.password">{{ authStore.registerfields.password[0] }}</InputFieldErrorMessage>
 				</div>
 				<div class="mb-8">

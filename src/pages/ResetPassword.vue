@@ -45,7 +45,7 @@
 			</div>
 
 			<div class="mb-4">
-				<InputField v-model="form.password" type="password" label="New password" required />
+				<InputField v-model="form.password" type="password" label="New password" :error="authStore.resetpasswordfields.password" required />
 				<InputFieldErrorMessage v-if="authStore.resetpasswordfields.password">{{ authStore.resetpasswordfields.password[0] }}</InputFieldErrorMessage>
 			</div>
 			<div class="mb-8">
