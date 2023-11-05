@@ -22,8 +22,8 @@
 			</div>
 
 			<div>
-				<router-link :to="{ name: 'Login' }" v-if="!authStore.user"><button class="button mr-2">Sign in</button></router-link>
-				<router-link :to="{ name: 'Register' }" v-if="!authStore.user"><button class="button-ghost">Create account</button></router-link>
+				<router-link :to="{ name: 'Login' }" v-if="!authStore.user" tabindex="-1"><button class="button mr-2">Sign in</button></router-link>
+				<router-link :to="{ name: 'Register' }" v-if="!authStore.user" tabindex="-1"><button class="button-ghost">Create account</button></router-link>
 
 				<button @click.prevent="logout()" v-if="authStore.user" class="button">Sign out</button>
 
@@ -66,6 +66,10 @@
 	}
 
 	header[role="banner"] a.nav-link:hover {
+		color: var(--accent-color);
+	}
+    header[role="banner"] a.nav-link:focus {
+        outline: none;
 		color: var(--accent-color);
 	}
 

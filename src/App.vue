@@ -234,12 +234,19 @@
 	/* --- Links --- */
 
 	.typo p a {
-		transition: border 300ms ease;
+		transition: border 300ms ease, color 300ms ease;
 		display: inline;
 		border-bottom: 2px solid var(--accent-color);
 	}
 
 	.typo p a:hover {
+        color: var(--accent-color);
+		border-bottom: 2px solid transparent;
+	}
+
+    .typo p a:focus {
+        outline: none;
+        color: var(--accent-color);
 		border-bottom: 2px solid transparent;
 	}
 
@@ -280,6 +287,10 @@
 	.button:hover {
 		background: var(--accent-color);
 	}
+    .button:focus {
+        outline: none;
+		background: var(--accent-color);
+	}
 
 	.button-wire {
 		font-weight: 500;
@@ -295,6 +306,10 @@
 	.button-wire:hover {
 		color: var(--accent-color);
 	}
+    .button-wire:focus {
+        outline: none;
+		color: var(--accent-color);
+	}
 
 	.button-ghost {
 		font-weight: 500;
@@ -308,6 +323,10 @@
 	}
 
 	.button-ghost:hover {
+		color: var(--accent-color);
+	}
+    .button-ghost:focus {
+        outline: none;
 		color: var(--accent-color);
 	}
 
