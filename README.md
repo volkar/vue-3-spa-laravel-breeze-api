@@ -57,6 +57,68 @@ npm run dev
 It will run on http://127.0.0.1:3000 by default.
 Open it in browser and you good to go!
 
+## Avoid 401 error in browser's console
+
+By default Laravel will return 401 header if guest requests guarded route (`/api/user` as example) which will lead to browser's console error. Which is fine, but if you want to keep console clear you should return unauthenticated status as 200 response for all guarded routes.
+
+Modify `/app/Exceptions/Handler.php` and add this in function `register`:
+
+```php
+$this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+    if ($request->is('api/*')) {
+        return response()->json([
+            'status_code' => 401,
+            'authenticated' => false,
+            'message' => 'Unauthenticated.'
+        ], 200);
+    }
+});
+```
+
+Also add two custom routes in Laravel's `api.php` (and delete default `/api/user` route if you don't need it anymore):
+
+```php
+Route::middleware(['auth:sanctum'])->get('/check-session', function () {
+    return response()->json(['authenticated' => \Illuminate\Support\Facades\Auth::check()], 200);
+});
+Route::middleware(['auth:sanctum'])->get('/get-user', function (Request $request) {
+    return $request->user();
+});
+```
+
+And modify two functions in `auth.js` to use new separated routes we just added:
+
+```js
+async checkUserSession() {
+    // Check if user authenticated on the backend
+    let isAuthenticated = false
+    try {
+        const response = await axios.get("/api/check-session")
+        if (response.status === 200 && response.data.authenticated) {
+            // Data valid, user authenticated
+            isAuthenticated = true
+        }
+    } catch (error) {
+        // Do nothing for now
+    }
+    return isAuthenticated
+},
+async getUserData() {
+    // Get authenticated user data from backend
+    let userData = false
+    try {
+        const response = await axios.get("/api/get-user")
+        if (response.status === 200 && response.data.id) {
+            // Data valid
+            userData = response.data
+        }
+    } catch (error) {
+        // Do nothing for now
+    }
+    return userData
+},
+```
+
 ## Contact me
 
 You always welcome to write me
