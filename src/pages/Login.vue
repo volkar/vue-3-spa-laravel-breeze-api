@@ -39,7 +39,7 @@
 					<InputFieldErrorMessage v-if="authStore.loginfields.email">{{ authStore.loginfields.email[0] }}</InputFieldErrorMessage>
 				</div>
 				<div class="mb-8">
-					<InputField v-model="form.password" type="password" label="Password" required />
+					<InputField v-model="form.password" type="password" label="Password" :error="authStore.loginfields.password" required />
 					<InputFieldErrorMessage v-if="authStore.loginfields.password">{{ authStore.loginfields.password[0] }}</InputFieldErrorMessage>
 				</div>
 				<div class="mb-8">
