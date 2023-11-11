@@ -45,6 +45,12 @@ Copy this project to folder of your choice
 gh repo clone volkar/vue-3-spa-laravel-breeze-api
 ```
 
+Go to folder
+
+```shell
+cd vue-3-spa-laravel-breeze-api
+```
+
 Install dependencies
 ```
 npm install
