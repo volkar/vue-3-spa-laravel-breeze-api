@@ -27,7 +27,7 @@
 		// Check user session when inactivity lasts longer than 60 min (3600000 ms)
 		const inactivityTimeoutMS = 3600000
 		if (authStore.user && baseStore.initialized && baseStore.lastrequesttime < Date.now() - inactivityTimeoutMS) {
-			const isAuthenticated = await authStore.checkUserSession()
+			const isAuthenticated = await authStore.isAuthenticated()
             if (!isAuthenticated) {
 				// Session expired, clear user data
 				authStore.clearUser()

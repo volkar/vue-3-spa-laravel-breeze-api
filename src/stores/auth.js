@@ -43,20 +43,20 @@ export const useAuthStore = defineStore("auth", {
 			// Get CSRF (cross-site request forgery) cookie
 			await axios.get("/sanctum/csrf-cookie")
 		},
-		async checkUserSession() {
+		async isAuthenticated() {
 			// Check if user authenticated on the backend
-			let isAuthenticated = false
+			let userIsAuthenticated = false
 			try {
 				const response = await axios.get("/api/user")
 				if (response.status === 200 && response.data.id) {
 					// Data valid, user authenticated
-					isAuthenticated = true
+					userIsAuthenticated = true
 				}
 			} catch (error) {
 				// It's better to write custom endpoint with yes/no 200 response
 				// without fetching user data every time
 			}
-			return isAuthenticated
+			return userIsAuthenticated
 		},
 		async getUserData() {
 			// Get authenticated user data from backend
@@ -88,6 +88,10 @@ export const useAuthStore = defineStore("auth", {
 		async handleLogin(loginData) {
 			// Handle login procedure
 
+			// Try to logout (prevent "The route dashboard could not be found.")
+			await this.handleLogout()
+
+			// Get CSRF token
 			await this.getCSRFToken()
 
 			try {
@@ -95,7 +99,7 @@ export const useAuthStore = defineStore("auth", {
 					email: loginData.email,
 					password: loginData.password,
 				})
-                // Get user data
+				// Get user data
 				const user = await this.getUserData()
 				if (user) {
 					// Set user
@@ -103,23 +107,23 @@ export const useAuthStore = defineStore("auth", {
 					// Redirect to dashboard
 					this.redirectToAuthenticatedEndpoint()
 				}
-            } catch (error) {
-                console.log(error)
+			} catch (error) {
 				if (error.response.status === 422) {
 					// Incorrect input. Fill fields error data
 					this.authLoginFieldsErrors = error.response.data.errors
 				} else {
-                    // Other errors
-                    this.authLoginStatusError = this.getErrorMessage(error)
+					// Other errors
+					this.authLoginStatusError = this.getErrorMessage(error)
 				}
 			}
 		},
 		async handleRegister(registerData) {
 			// Handle register form submission
 
-			// Ensure user is logged off to prevent "The route dashboard could not be found." error
+			// Try to logout (prevent "The route dashboard could not be found.")
 			await this.handleLogout()
 
+			// Get CSRF token
 			await this.getCSRFToken()
 
 			try {
@@ -150,9 +154,10 @@ export const useAuthStore = defineStore("auth", {
 		async handleForgotPassword(email) {
 			// Handle forgot password form submission
 
-			// Ensure user is logged off to prevent "The route dashboard could not be found." error
+			// Try to logout (prevent "The route dashboard could not be found.")
 			await this.handleLogout()
 
+			// Get CSRF token
 			await this.getCSRFToken()
 
 			try {
@@ -174,9 +179,10 @@ export const useAuthStore = defineStore("auth", {
 		async handleResetPassword(resetPasswordData) {
 			// Handle reset password form submission
 
-			// Ensure user is logged off to prevent "The route dashboard could not be found." error
+			// Try to logout (prevent "The route dashboard could not be found.")
 			await this.handleLogout()
 
+			// Get CSRF token
 			await this.getCSRFToken()
 
 			try {
@@ -194,12 +200,17 @@ export const useAuthStore = defineStore("auth", {
 			}
 		},
 		async handleLogout() {
-			// Handle logout procedure (or try to logout if already guest)
-			try {
-				await axios.post("/logout")
-			} catch (error) {
-				// User is not authenticated. Do nothing
-			}
+            // Handle logout procedure
+            const isAuthenticated = await this.isAuthenticated()
+            if (isAuthenticated) {
+                // Clear user session on backend
+                try {
+					await axios.post("/logout")
+				} catch (error) {
+					// Do nothing for now
+				}
+            }
+            // Clear user data on frontend
 			this.clearUser()
 		},
 		setUser(userData) {

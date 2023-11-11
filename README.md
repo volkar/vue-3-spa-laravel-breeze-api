@@ -89,19 +89,19 @@ Route::middleware(['auth:sanctum'])->get('/get-user', function (Request $request
 And modify two functions in `auth.js` to use new separated routes we just added:
 
 ```js
-async checkUserSession() {
+async isAuthenticated() {
     // Check if user authenticated on the backend
-    let isAuthenticated = false
+    let userIsAuthenticated = false
     try {
         const response = await axios.get("/api/check-session")
         if (response.status === 200 && response.data.authenticated) {
             // Data valid, user authenticated
-            isAuthenticated = true
+            userIsAuthenticated = true
         }
     } catch (error) {
         // Do nothing for now
     }
-    return isAuthenticated
+    return userIsAuthenticated
 },
 async getUserData() {
     // Get authenticated user data from backend
