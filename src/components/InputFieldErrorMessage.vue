@@ -1,6 +1,6 @@
 <template>
 	<div class="form-field-error-message text-xs pt-2">
-		<slot></slot>
+		<slot />
 	</div>
 </template>
 

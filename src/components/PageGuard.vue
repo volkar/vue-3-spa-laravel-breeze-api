@@ -28,6 +28,6 @@
 
 <template>
 	<div v-if="!preventLoadBeforeCheck && ((!guestOnly && !authenticatedOnly) || (guestOnly && !authStore.user) || (authenticatedOnly && authStore.user))">
-		<slot></slot>
+		<slot />
 	</div>
 </template>

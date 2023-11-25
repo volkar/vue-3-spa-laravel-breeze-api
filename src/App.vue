@@ -3,8 +3,8 @@
 	import { useAuthStore } from "@/stores/auth"
 	import { useBaseStore } from "@/stores/base"
 
-	import Header from "@/components/Header.vue"
-	import Footer from "@/components/Footer.vue"
+	import PageHeader from "@/components/PageHeader.vue"
+	import PageFooter from "@/components/PageFooter.vue"
 
 	const authStore = useAuthStore()
 	const baseStore = useBaseStore()
@@ -37,13 +37,13 @@
 </script>
 
 <template>
-	<Header v-if="baseStore.initialized" />
+	<PageHeader v-if="baseStore.initialized" />
 
 	<main :class="{ loading: !baseStore.initialized }">
 		<router-view v-if="baseStore.initialized" />
 	</main>
 
-	<Footer v-if="baseStore.initialized" />
+	<PageFooter v-if="baseStore.initialized" />
 </template>
 
 <style>
@@ -272,6 +272,11 @@
 	}
 
 	/* --- Buttons --- */
+
+    button {
+        all: unset;
+        cursor: pointer;
+    }
 
 	.button {
 		font-weight: 500;

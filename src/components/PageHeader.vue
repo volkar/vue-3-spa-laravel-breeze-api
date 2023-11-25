@@ -22,14 +22,14 @@
 			</div>
 
 			<div>
-				<router-link :to="{ name: 'Login' }" v-if="!authStore.user" tabindex="-1"><button class="button mr-2">Sign in</button></router-link>
-				<router-link :to="{ name: 'Register' }" v-if="!authStore.user" tabindex="-1"><button class="button-ghost">Create account</button></router-link>
+				<router-link :to="{ name: 'Login' }" v-if="!authStore.user" class="mr-2 button">Sign in</router-link>
+				<router-link :to="{ name: 'Register' }" v-if="!authStore.user" class="button-ghost">Create account</router-link>
 
-				<button @click.prevent="logout()" v-if="authStore.user" class="button">Sign out</button>
+				<button type="button" @click.prevent="logout()" v-if="authStore.user" class="button">Sign out</button>
 
-				<a href="#" @click.prevent="mobileMenuOpened = !mobileMenuOpened" class="inline-block ml-5 translate-y-1.5 md:hidden">
+				<button type="button" @click.prevent="mobileMenuOpened = !mobileMenuOpened" class="inline-block ml-5 translate-y-1.5 md:hidden">
 					<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" /></svg>
-				</a>
+				</button>
 			</div>
 		</nav>
 	</header>
@@ -68,8 +68,8 @@
 	header[role="banner"] a.nav-link:hover {
 		color: var(--accent-color);
 	}
-    header[role="banner"] a.nav-link:focus {
-        outline: none;
+	header[role="banner"] a.nav-link:focus {
+		outline: none;
 		color: var(--accent-color);
 	}
 
